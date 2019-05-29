@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import pro.sunhao.service1.pojo.User;
 
 @Repository
-public interface UserDao extends JpaRepository<User,Long> {
+public interface UserDao extends JpaRepository<User, Long> {
 
-    //List<User> getUserAll();
+    User findByUsername(String username);
 
 }

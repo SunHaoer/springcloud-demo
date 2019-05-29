@@ -2,6 +2,7 @@ package pro.sunhao.service1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sunhao.service1.pojo.User;
 import pro.sunhao.service1.service.UserService;
@@ -15,9 +16,25 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/getUserAll")
-    public String getUserAll() {
-        List<User> userList = userService.getUserAll();
-        return userList.toString();
+    public List<User> getUserAll() {
+        return userService.getUserAll();
+    }
+
+    @RequestMapping("/getUserByName")
+    public User getUserByUsername(@RequestParam(defaultValue = "username") String username) {
+        return userService.findUserByUsername(username);
+    }
+
+    @RequestMapping("/saveUser")
+    public void saveUser(@RequestParam(defaultValue = "username") String username,
+                         @RequestParam(defaultValue = "password") String password,
+                         @RequestParam(defaultValue = "tel") String tel) {
+        userService.saveUser(new User(null, username, password, tel));
+    }
+
+    @RequestMapping("/deleteUserByUsername")
+    public boolean deleteUserByUsername(@RequestParam(defaultValue = "username") String username) {
+        return userService.deleteUserByUsername(username);
     }
 
 }

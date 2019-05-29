@@ -18,4 +18,25 @@ public class UserServiceImpl implements UserService {
         return userDao.findAll();
     }
 
+    @Override
+    public User findUserByUsername(String username) {
+        return userDao.findByUsername(username);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    public boolean deleteUserByUsername(String username) {
+        boolean deleteSuccess = false;
+        User user = findUserByUsername(username);
+        if(user != null) {
+            userDao.delete(user);
+            deleteSuccess = true;
+        }
+        return deleteSuccess;
+    }
+
 }

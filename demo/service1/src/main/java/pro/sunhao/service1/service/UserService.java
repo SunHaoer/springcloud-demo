@@ -8,4 +8,10 @@ public interface UserService {
 
     List<User> getUserAll();
 
+    User findUserByUsername(String name);
+
+    void saveUser(User user);
+
+    boolean deleteUserByUsername(String username);
+
 }
