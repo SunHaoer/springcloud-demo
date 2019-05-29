@@ -1,11 +1,16 @@
 package pro.sunhao.service1.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pro.sunhao.service1.Exception.DataBaseException;
 import pro.sunhao.service1.dao.UserDao;
 import pro.sunhao.service1.pojo.User;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -15,8 +20,16 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public List<User> getUserAll() {
+    public List<User> findUserAll() {
+        userDao.findAll();
         return userDao.findAll();
+    }
+
+    @Override
+    public Page findUserAll(int page, int size) {
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "username"));
+        Pageable pageable = new PageRequest(page, size, sort);
+        return userDao.findAll(pageable);
     }
 
     @Override
@@ -24,22 +37,24 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUsername(username);
     }
 
+    @Transactional
     @Override
-    public boolean saveUser(User user) {
+    public boolean saveUser(User user) throws DataBaseException {
         boolean saveUserSuccess = false;
         try {
             if(findUserByUsername(user.getUsername()).isEmpty()) {
                 userDao.save(user);
                 saveUserSuccess = true;
             }
-        } catch (DataBaseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DataBaseException("database error and rollback");
         }
         return saveUserSuccess;
     }
 
+    @Transactional
     @Override
-    public boolean deleteUserByUsername(String username) {
+    public boolean deleteUserByUsername(String username) throws DataBaseException {
         boolean deleteSuccess = false;
         try {
             List<User> userList = findUserByUsername(username);
@@ -47,25 +62,22 @@ public class UserServiceImpl implements UserService {
                 userDao.delete(userList);
                 deleteSuccess = true;
             }
-        } catch (DataBaseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DataBaseException("database error and rollback");
         }
         return deleteSuccess;
     }
 
+    @Transactional
     @Override
-    public boolean updatePasswordByUsername(String username, String password) {
+    public boolean updatePasswordByUsername(String username, String password) throws DataBaseException {
         boolean updateSuccess = false;
         try {
-            List<User> userList = findUserByUsername(username);
-            if(userList.size() == 1) {
-                User user = userList.get(0);
-                user.setPassword(password);
-                userDao.save(user);
+            if(userDao.updatePasswordByUsername(username, password) > 0) {
                 updateSuccess = true;
             }
-        } catch (DataBaseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DataBaseException("database error and rollback");
         }
         return updateSuccess;
     }

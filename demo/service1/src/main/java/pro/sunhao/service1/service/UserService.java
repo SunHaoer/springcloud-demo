@@ -1,12 +1,15 @@
 package pro.sunhao.service1.service;
 
+import org.springframework.data.domain.Page;
 import pro.sunhao.service1.pojo.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getUserAll();
+    List<User> findUserAll();
+
+    Page findUserAll(int page, int size);
 
     List<User> findUserByUsername(String name);
 

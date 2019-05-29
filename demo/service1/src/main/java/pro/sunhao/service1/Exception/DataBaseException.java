@@ -6,4 +6,8 @@ public class DataBaseException extends RuntimeException {
         super();
     }
 
+    public DataBaseException(String message) {
+        super(message);
+    }
+
 }
