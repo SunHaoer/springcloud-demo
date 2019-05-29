@@ -8,10 +8,11 @@ public interface UserService {
 
     List<User> getUserAll();
 
-    User findUserByUsername(String name);
+    List<User> findUserByUsername(String name);
 
-    void saveUser(User user);
+    boolean saveUser(User user);
 
     boolean deleteUserByUsername(String username);
 
+    boolean updatePasswordByUsername(String username, String tel);
 }

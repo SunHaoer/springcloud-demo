@@ -21,20 +21,26 @@ public class UserController {
     }
 
     @RequestMapping("/getUserByName")
-    public User getUserByUsername(@RequestParam(defaultValue = "username") String username) {
+    public List<User> getUserByUsername(@RequestParam(defaultValue = "username") String username) {
         return userService.findUserByUsername(username);
     }
 
     @RequestMapping("/saveUser")
-    public void saveUser(@RequestParam(defaultValue = "username") String username,
+    public boolean saveUser(@RequestParam(defaultValue = "username") String username,
                          @RequestParam(defaultValue = "password") String password,
                          @RequestParam(defaultValue = "tel") String tel) {
-        userService.saveUser(new User(null, username, password, tel));
+        return userService.saveUser(new User(null, username, password, tel));
     }
 
     @RequestMapping("/deleteUserByUsername")
     public boolean deleteUserByUsername(@RequestParam(defaultValue = "username") String username) {
         return userService.deleteUserByUsername(username);
+    }
+
+    @RequestMapping("/updateUserByUsername")
+    public boolean updatePasswordByUsername(@RequestParam(defaultValue = "username") String username,
+                                           @RequestParam(defaultValue = "password") String password) {
+        return userService.updatePasswordByUsername(username, password);
     }
 
 }
