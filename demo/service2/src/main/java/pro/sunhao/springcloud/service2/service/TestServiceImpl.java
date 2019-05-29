@@ -5,14 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class HelloServiceImpl implements TestService {
+public class TestServiceImpl implements TestService {
 
     @Autowired
     RestTemplate restTemplate;
 
     @Override
     public String callService1() {
-        return restTemplate.getForObject("http://service1/service1", String.class);
+        return restTemplate.getForObject("http://service1/getUserAll", String.class);
     }
 
 }
