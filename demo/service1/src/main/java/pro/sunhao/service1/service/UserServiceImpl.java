@@ -27,14 +27,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page findUserAll(int page, int size) {
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "username"));
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "userUsername"));
         Pageable pageable = new PageRequest(page, size, sort);
         return userDao.findAll(pageable);
     }
 
     @Override
     public List<User> findUserByUsername(String username) {
-        return userDao.findByUsername(username);
+        return userDao.findByUserUsername(username);
     }
 
     @Transactional
@@ -42,11 +42,12 @@ public class UserServiceImpl implements UserService {
     public boolean saveUser(User user) throws DataBaseException {
         boolean saveUserSuccess = false;
         try {
-            if(findUserByUsername(user.getUsername()).isEmpty()) {
+            if(findUserByUsername(user.getUserUsername()).isEmpty()) {
                 userDao.save(user);
                 saveUserSuccess = true;
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new DataBaseException("database error and rollback");
         }
         return saveUserSuccess;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
     public boolean updatePasswordByUsername(String username, String password) throws DataBaseException {
         boolean updateSuccess = false;
         try {
-            if(userDao.updatePasswordByUsername(username, password) > 0) {
+            if(userDao.updateUserPasswordByUserUsername(username, password) > 0) {
                 updateSuccess = true;
             }
         } catch (Exception e) {

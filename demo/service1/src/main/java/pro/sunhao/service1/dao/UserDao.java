@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
 
-    List<User> findByUsername(String username);
+    List<User> findByUserUsername(String username);
 
     @Modifying
-    @Query("update User as user set user.password = ?2 where user.username=?1")
-    int updatePasswordByUsername(String username, String password);
+    @Query("update User as user set user.userPassword = ?2 where user.userUsername=?1")
+    int updateUserPasswordByUserUsername(String username, String password);
 
 }

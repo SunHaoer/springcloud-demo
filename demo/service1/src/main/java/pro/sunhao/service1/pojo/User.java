@@ -16,12 +16,12 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)    // 非空， 唯一
-    private String username;
+    private String userUsername;
 
     @Column(nullable = false)
-    private String password;
+    private String userPassword;
 
     @Column
-    private String tel;
+    private String userPhone;
 
 }

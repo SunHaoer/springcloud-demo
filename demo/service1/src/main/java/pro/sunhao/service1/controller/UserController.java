@@ -28,15 +28,16 @@ public class UserController {
     }
 
     @RequestMapping("/findUserByName")
-    public List<User> findUserByUsername(@RequestParam(defaultValue = "username") String username) {
+    public List<User> findUserByUsername(@RequestParam(defaultValue = "userUsername") String username) {
         return userService.findUserByUsername(username);
     }
 
     @RequestMapping("/saveUser")
     public boolean saveUser(@RequestParam(defaultValue = "username") String username,
                          @RequestParam(defaultValue = "password") String password,
-                         @RequestParam(defaultValue = "tel") String tel) {
-        return userService.saveUser(new User(null, username, password, tel));
+                         @RequestParam(defaultValue = "phone") String phone) {
+        User user = new User(null, username, password, phone);
+        return userService.saveUser(user);
     }
 
     @RequestMapping("/deleteUserByUsername")

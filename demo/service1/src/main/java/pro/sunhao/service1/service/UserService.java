@@ -11,11 +11,11 @@ public interface UserService {
 
     Page findUserAll(int page, int size);
 
-    List<User> findUserByUsername(String name);
+    List<User> findUserByUsername(String username);
 
     boolean saveUser(User user);
 
     boolean deleteUserByUsername(String username);
 
-    boolean updatePasswordByUsername(String username, String tel);
+    boolean updatePasswordByUsername(String username, String password);
 }
